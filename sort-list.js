@@ -45,8 +45,18 @@ function mergeFiles(){
   });  
 };
 
-function download() {
+const uretici = async () => {
+  let veri = new FormData();
+  veri.append('process', 'merge_pdf');
+  veri.append('files', merge_list);
 
+  console.log('veri: ',veri);
+  let denetciYaniti = await fetch('yaba/file-send', {
+      method: 'POST',
+      body: veri,
+  });
+  denetciYaniti = await denetciYaniti.json();
+  console.log('denetci yaniti:', denetciYaniti);
 };
 
 function slist(target) {
