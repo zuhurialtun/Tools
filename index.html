@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+
+<html lang="en-US">
+<!-- (A) LOAD CSS + JS -->
+<link rel="stylesheet" href="sort-list.css">
+<script src="sort-list.js"></script>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Datajiro Tools</title>
+</head>
+
+<body>
+	<div class="file-input">
+		<input type="file" id="file" class="file" multiple onChange="veri()" />
+		<label for="file">Select file</label>
+	</div>
+	<br/><br/>
+    <!-- (B) THE LIST -->
+    <ul id="sortlist"></ul>
+	<br/><br/>
+    <button onclick="mergeFiles()" name="submit">Merge File</button>
+	<br/><br/>
+	<div id="download_div" style="display: none;">
+		<div id="merged_file"></div>
+		<br/>
+		<button onclick="download()" name="submit">Download</button>
+	</div>
+</body>
+
+</html>

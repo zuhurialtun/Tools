@@ -1,0 +1,101 @@
+body{
+  background: #555;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 12rem 2rem 12rem;
+  text-align: center;
+}
+
+/* (A) LIST STYLES */
+.slist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.slist li {
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #1D8754;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(to right bottom, #1db954, #18ac56, #17a056, #199355, #1d8754);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  font-family: "Gill Sans", sans-serif;
+  color: #fff;
+  line-height: 1.4em;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+}
+
+/* (B) DRAG-AND-DROP HINT */
+.slist li.hint {
+  border: 1px solid #1db954;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.slist li.active {
+  border: 1px solid #1db954;
+  background: #1db954;
+  cursor: pointer;
+}
+
+.slist li:hover{
+  transform: scale(1.02);
+}
+
+/* File İnput Styles */
+.file {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+
+.file-input label {
+  display: block;
+  position: relative;
+  width: 200px;
+  height: 50px;
+  border-radius: 15px;
+  background: linear-gradient(to right bottom, #1db954, #18ac56, #17a056, #199355, #1d8754);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform .2s ease-out;
+}
+
+input:hover + label,
+input:focus + label {
+  transform: scale(1.02);
+}
+
+/* Button Styles */
+button{
+  display: block;
+  position: relative;
+  width: 200px;
+  height: 50px;
+  border-radius: 15px;
+  background: linear-gradient(to right bottom, #1db954, #18ac56, #17a056, #199355, #1d8754);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform .2s ease-out;
+}
+
+button:hover,
+button:focus {
+  transform: scale(1.02);
+}
