@@ -1,4 +1,6 @@
-var merge_list = {}
+var merge_list = {};
+var file_list = [];
+var FILE = '';
 
 function veri() {
   var adet = document.querySelector("#file").files.length;
@@ -28,42 +30,83 @@ function getFiles() {
 function listFiles() {
   const input = document.querySelector('#sortlist');
   free_list = Array();
+  file_list = [];
   Array.from(input.childNodes)
     .forEach(file => {
       free_list[file.id] = merge_list[file.id];
+      file_list.push(file.id);
     });
-    merge_list = free_list;
-    console.log(merge_list);
+  merge_list = free_list;
 };
 
-function mergeFiles(){
-  document.querySelector('#download_div').style.display = "block";
-  document.querySelector('#merged_file').innerHTML = "";
-  Object.keys(merge_list).forEach(function(key) {
-    console.log(merge_list[key]);
-    document.querySelector('#merged_file').innerHTML += key + '<br/>';
-  });  
+function strip(string) {
+  return string.replace(/^\s+|\s+$/g, '');
 };
+
+function downloadFile(url, fileName) {
+  fetch(url, { method: 'get', mode: 'no-cors', referrerPolicy: 'no-referrer' })
+    .then(res => res.blob())
+    .then(res => {
+      const aElement = document.createElement('a');
+      aElement.setAttribute('download', fileName);
+      const href = URL.createObjectURL(res);
+      aElement.href = href;
+      aElement.setAttribute('target', '_blank');
+      aElement.click();
+      URL.revokeObjectURL(href);
+    });
+};
+
+function ready_file(file_name) {
+  FILE = strip(file_name);
+  document.querySelector('#download_div').style.display = "block";
+  document.querySelector('#merged_file').innerHTML = FILE + '.pdf';
+};
+
+function download_file() {
+  file_path = 'http://localhost/tools/uploads/' + FILE + '.pdf';
+  downloadFile(file_path,FILE);
+}
 
 const uretici = async () => {
-  let veri = new FormData();
-  veri.append('process', 'merge_pdf');
-  veri.append('files', merge_list);
 
-  console.log('veri: ',veri);
+  let veri = new FormData();
+  veri.append('randomID', randomID(11));
+  veri.append('process', 'merge_pdf');
+
+  Object.keys(merge_list).forEach(function (key) {
+    veri.append(merge_list[key].name, merge_list[key]);
+  });
+
+  veri.append('file_list', file_list);
+
+  console.log('veri: ', veri);
   let denetciYaniti = await fetch('yaba/file-send', {
-      method: 'POST',
-      body: veri,
+    method: 'POST',
+    body: veri,
   });
   denetciYaniti = await denetciYaniti.json();
   console.log('denetci yaniti:', denetciYaniti);
+  ready_file(denetciYaniti.gelen.dilCiktisi);
+};
+
+function randomID(leng) {
+  var randomID = '';
+  for (let c = 0; c < leng; c++) {
+    randomID += getRndInteger(1, 9).toString();
+  }
+  return randomID;
+};
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 function slist(target) {
   // (A) SET CSS + GET ALL LIST ITEMS
   target.classList.add("slist");
   let items = target.getElementsByTagName("li"), current = null;
-  console.log(items);
+  // console.log(items);
   // (B) MAKE ITEMS DRAGGABLE + SORTABLE
   for (let i of items) {
     // (B1) ATTACH DRAGGABLE

@@ -1,31 +1,29 @@
 <?php
 include "kurulum.php";
 
-
-
-if(isset($_POST['process'])){
+if(isset($_POST['randomID'])){
+    $randomID = $_POST['randomID'];
+    mkdir('../uploads/'.$randomID);
+    foreach($_FILES as $file){
+        move_uploaded_file($file['tmp_name'], "../uploads/".$randomID.'/'.$file["name"]);
+    }
+    
     $process = $_POST['process'];
+    $file_list = $_POST['file_list'];
+    
+    $veri = array(
+        'randomID' => $randomID,
+        'process' => $process,
+        'file_list' => $file_list,
+    );
+    
+    $veri = json_encode($veri);
+    $cikti["gelen"] = curl_post($dock_server, $veri);
+    
+    echo json_encode($cikti, JSON_UNESCAPED_UNICODE);
 }
 else{
-    $process = 'NULL';
+    echo json_encode('NULL', JSON_UNESCAPED_UNICODE);
 }
-
-if(isset($_FILES['files'])){
-    $file_name = $_FILES['files']['name'];
-    // echo "Gönderilen dosya adı: " . $file_name;
-}
-else{
-    $file_name = 'NULL';
-}
-
-$veri = array(
-    'process' => $process,
-    'files' => $file_name,
-);
-
-$veri = json_encode($veri);
-$cikti["gelen"] = curl_post($dock_server, $veri);
-
-echo json_encode($veri, JSON_UNESCAPED_UNICODE);
 
 ?>
